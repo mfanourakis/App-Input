@@ -80,7 +80,11 @@ int main(int argc, char *argv[]) {
 				"permission to grab the Windows keyboard events.");
 		std::cout << "Keyboard successfully hooked" << std::endl;
 		// create streaminfo and outlet
-		lsl::stream_info info("Keyboard", "Markers", 1, lsl::IRREGULAR_RATE, lsl::cf_string);
+		std::string streamname = "Keyboard";
+		if (argc > 1){
+			streamname = streamname + "-" + argv[1];
+		}
+		lsl::stream_info info(streamname, "Markers", 1, lsl::IRREGULAR_RATE, lsl::cf_string);
 		outlet = new lsl::stream_outlet(info);
 		std::cout << "Outlet created. Close this window to stop streaming." << std::endl;
 	} catch (std::exception &e) { std::cerr << "Error: " << e.what() << std::endl; }

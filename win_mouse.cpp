@@ -60,12 +60,18 @@ int main(int argc, char *argv[]) {
 				"to grab the Windows mouse events.");
 		std::cout << "Mouse successfully hooked" << std::endl;
 		// create streaminfo and outlet for buttons
+		std::string streamnameButtons = "MouseButtons";
+		std::string streamnamePosition = "MousePosition";
+		if (argc > 1) {
+			streamnameButtons = streamnameButtons + "-" + argv[1];
+			streamnamePosition = streamnamePosition + "-" + argv[1];
+		}
 		lsl::stream_info infoButtons(
-			"MouseButtons", "Markers", 1, lsl::IRREGULAR_RATE, lsl::cf_string);
+			streamnameButtons, "Markers", 1, lsl::IRREGULAR_RATE, lsl::cf_string);
 		outletButtons = new lsl::stream_outlet(infoButtons);
 		// create streaminfo and outlet for the position
 		lsl::stream_info infoPosition(
-			"MousePosition", "Position", 2, lsl::IRREGULAR_RATE, lsl::cf_int32);
+			streamnamePosition, "Position", 2, lsl::IRREGULAR_RATE, lsl::cf_int32);
 		lsl::xml_element setup = infoPosition.desc().append_child("setup");
 		lsl::xml_element display = setup.append_child("display");
 		display.append_child_value("monitors", std::to_string(GetSystemMetrics(SM_CMONITORS)));
